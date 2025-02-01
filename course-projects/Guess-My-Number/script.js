@@ -16,3 +16,20 @@ const init = function () {
 };
 
 init();
+document.querySelector('.check').addEventListener('click', function () {
+  const guess = Number(document.querySelector('.guess').value);
+  console.log(guess, typeof guess);
+  //When there is no input
+  if (!guess) {
+    displayMessage('⛔️ No number!');
+
+    //When player wins the game
+  } else if (guess === secretNumber) {
+    document.querySelector('.number').textContent = secretNumber;
+    displayMessage('🎉 Correct Number!');
+    document.querySelector('body').style.backgroundColor = '#60b347';
+    document.querySelector('.number').style.width = '30rem';
+    if (score > highscore) {
+      highscore = score;
+      document.querySelector('.highscore').textContent = highscore;
+    }
