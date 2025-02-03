@@ -33,3 +33,16 @@ document.querySelector('.check').addEventListener('click', function () {
       highscore = score;
       document.querySelector('.highscore').textContent = highscore;
     }
+   //When guess is wrong
+  } else if (guess !== secretNumber) {
+    if (score > 1) {
+      score--;
+      document.querySelector('.score').textContent = score;
+      displayMessage(guess > secretNumber ? '📈 Too high!' : '📉 Too low!');
+    } else {
+      displayMessage('💥 You lost the game!');
+      document.querySelector('.score').textContent = 0;
+    }
+  }
+});
+document.querySelector('.again').addEventListener('click', init);
