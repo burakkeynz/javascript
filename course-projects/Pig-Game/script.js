@@ -39,3 +39,45 @@ const initialConditions = function () {
 };
 
 initialConditions();
+//Rolling dice
+btnRoll.addEventListener('click', function () {
+  if (playing) {
+    const dice = Math.trunc(Math.random() * 6) + 1;
+    diceEl.classList.remove('hide');
+    diceEl.src = `dice-${dice}.png`;
+    if (dice !== 1) {
+      currentScore += dice;
+      document.getElementById(`current--${activePlayer}`).textContent =
+        currentScore;
+    } else {
+      currentScore = 0;
+      document.getElementById(`current--${activePlayer}`).textContent =
+        currentScore;
+      activePlayer = activePlayer === 0 ? 1 : 0;
+      player0El.classList.toggle('player--active');
+      player1El.classList.toggle('player--active');
+    }
+  }
+});
+//Holding the score
+btnHold.addEventListener('click', function () {
+  if (playing) {
+    scores[activePlayer] += currentScore;
+    document.getElementById(`score--${activePlayer}`).textContent =
+      scores[activePlayer];
+    //If there is a winner
+    if (scores[activePlayer] >= 100) {
+      playing = false;
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.add('player--winner');
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.remove('player--active');
+    } else {
+      switchPlayer();
+    }
+  }
+});
+
+btnNew.addEventListener('click', initialConditions);
