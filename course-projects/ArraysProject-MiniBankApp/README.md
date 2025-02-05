@@ -15,6 +15,4 @@
 - **Loan Requests:** Users can request loans based on account history.
 - **Sorting Feature:** Allows sorting of transactions for better overview.
 
-## License
 
-This project is licensed under the [MIT License](LICENSE).
