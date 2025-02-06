@@ -109,3 +109,48 @@ const displayMovements = function (acc, sort = false) {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
+const calcPrintBalance = function (acc) {
+  acc.balance = acc.movements.reduce((acc, cur) => acc + cur, 0);
+  labelBalance.textContent = formatCur(acc.balance, acc.locale, acc.currency);
+};
+
+const calcDisplaySummary = function (acc) {
+  const incomes = acc.movements
+    .filter(values => values > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = formatCur(incomes, acc.locale, acc.currency);
+
+  const out = Math.abs(
+    acc.movements
+      .filter(values => values < 0)
+      .reduce((acc, mov) => acc + mov, 0)
+  );
+  labelSumOut.textContent = formatCur(out, acc.locale, acc.currency);
+
+  const interest = acc.movements
+    .filter(values => values > 0)
+    .map(deposit => (deposit * acc.interestRate) / 100)
+    .filter((interest, i, arr) => interest >= 1)
+    .reduce((acc, interest) => acc + interest, 0);
+  labelSumInterest.textContent = formatCur(interest, acc.locale, acc.currency);
+};
+const createUsernames = function (accs) {
+  accs.forEach(
+    acc =>
+      (acc.username = acc.owner
+        .toLowerCase()
+        .split(' ')
+        .map(initials => initials[0])
+        .join(''))
+  );
+};
+createUsernames(accounts);
+
+const updateUI = function (acc) {
+  //Display movements
+  displayMovements(acc);
+  //Display Balance
+  calcPrintBalance(acc);
+  //Display summary
+  calcDisplaySummary(acc);
+};
