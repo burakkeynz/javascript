@@ -154,3 +154,71 @@ const updateUI = function (acc) {
   //Display summary
   calcDisplaySummary(acc);
 };
+const startLogOutTimer = function () {
+  const tick = function () {
+    const min = Math.trunc(remainingTime / 60);
+    const sec = remainingTime % 60;
+    labelTimer.textContent =
+      `${min}`.padStart(2, 0) + ':' + `${sec}`.padStart(2, 0);
+    if (remainingTime === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = `Log in to get started`;
+      containerApp.style.opacity = 0;
+    }
+    remainingTime--;
+  };
+  //Set time to 5 minutes
+  let remainingTime = 300;
+
+  //To immediately update timer again as 05:00
+  tick();
+
+  //Call the tick every second
+  const timer = setInterval(tick, 1000);
+  return timer;
+  //we return it in case there is a timer that still running after switching an account, there can't be two timer counting
+};
+
+let currentAccount, timer;
+
+//Events
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault();
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  console.log(currentAccount);
+  if (currentAccount?.pin === +inputLoginPin.value) {
+    //Display UI and Welcome message
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    }!`;
+    containerApp.style.opacity = 100;
+
+    //Experimenting Intl API
+    const now = new Date();
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+      // weekday: 'long',
+    };
+    labelDate.textContent = new Intl.DateTimeFormat(
+      currentAccount.locale,
+      options
+    ).format(now);
+
+    //Remove input fields after succesfull log-in
+    inputLoginUsername.value = inputLoginPin.value = '';
+    inputLoginPin.blur(); //Removing the cursor from pin field
+
+    //Timer
+    if (timer) clearInterval(timer); //if is there already a timer for a account, then clear it to switch another
+    timer = startLogOutTimer();
+
+    //UpdateUI
+    updateUI(currentAccount);
+  }
+});
