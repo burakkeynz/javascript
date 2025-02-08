@@ -154,6 +154,7 @@ const updateUI = function (acc) {
   //Display summary
   calcDisplaySummary(acc);
 };
+
 const startLogOutTimer = function () {
   const tick = function () {
     const min = Math.trunc(remainingTime / 60);
@@ -221,4 +222,81 @@ btnLogin.addEventListener('click', function (e) {
     //UpdateUI
     updateUI(currentAccount);
   }
+});
+
+//Event Handler for Transfering Money
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = +inputTransferAmount.value;
+  const receiverAcc = accounts.find(
+    acc => acc.username === inputTransferTo.value
+  );
+  inputTransferAmount.value = inputTransferTo.value = '';
+  inputTransferTo.blur();
+  if (
+    amount > 0 &&
+    currentAccount.balance >= amount &&
+    receiverAcc?.username !== currentAccount.username &&
+    receiverAcc
+  ) {
+    //Doing the transfer
+    currentAccount.movements.push(-amount);
+    receiverAcc.movements.push(amount);
+    //Add transfer date for sender and receiver
+    currentAccount.movementsDates.push(new Date().toISOString());
+    receiverAcc.movementsDates.push(new Date().toISOString());
+
+    updateUI(currentAccount);
+
+    //Reset timer
+    clearInterval(timer);
+    timer = startLogOutTimer();
+  }
+});
+
+//Event Handler for Closing Account
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+  if (
+    currentAccount?.username === inputCloseUsername.value &&
+    currentAccount?.pin === Number(inputClosePin.value)
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    // console.log(index); //js's index is 0, stw's index is 2
+    //Delete account
+    accounts.splice(index, 1);
+    //Hide UI
+    containerApp.style.opacity = 0;
+  }
+  inputCloseUsername.value = inputClosePin.value = '';
+  inputClosePin.blur();
+});
+
+//Event Handler for Request Loan
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Math.floor(inputLoanAmount.value); //150.53'ü 150'ye yuvarlar
+  if (amount > 0 && currentAccount.movements.some(mov => mov > amount * 0.1)) {
+    setTimeout(function () {
+      //Add movement
+      currentAccount.movements.push(amount);
+      //Add Loan Date
+      currentAccount.movementsDates.push(new Date().toISOString());
+      //Update UI
+      updateUI(currentAccount);
+
+      clearInterval(timer);
+      timer = startLogOutTimer();
+    }, 2000);
+  }
+  inputLoanAmount.value = '';
+});
+
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount, !sorted);
+  sorted = !sorted;
 });
