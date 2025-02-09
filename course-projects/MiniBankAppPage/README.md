@@ -1,4 +1,4 @@
-# Project Name
+# MiniBankApp WebPage
 
 A  webpage of previous MiniBankApp project with various UI components such as modals, tabbed components, smooth scrolling, lazy loading images, and a functional slider.
 
