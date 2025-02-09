@@ -4,37 +4,37 @@ A  webpage of previous MiniBankApp project with various UI components such as mo
 
 ## Features
 
-Modal Window:
+### Modal Window
 
 Opens when clicking specific buttons.
 
 Closes when clicking outside the modal or pressing the Escape key.
 
-Smooth Scrolling:
+### Smooth Scrolling:
 
 Scrolls smoothly to sections when clicking navigation links or the scroll button.
 
-Page Navigation Optimization (Event Delegation):
+### Page Navigation Optimization (Event Delegation):
 
 Uses event delegation to optimize performance by adding only one event listener for multiple elements.
 
-Tabbed Component:
+### Tabbed Component:
 
 Enables switching between different content sections dynamically.
 
-Sticky Navigation Bar:
+### Sticky Navigation Bar:
 
 Implements an Intersection Observer to keep the navbar fixed when scrolling past the header.
 
-Section Reveal on Scroll:
+### Section Reveal on Scroll:
 
 Uses an Intersection Observer to gradually reveal sections as they appear in the viewport.
 
-Lazy Loading Images:
+### Lazy Loading Images:
 
 Loads images dynamically to improve performance.
 
-Slider Component:
+### Slider Component:
 
 A fully functional image slider with navigation buttons and keyboard support.
 
