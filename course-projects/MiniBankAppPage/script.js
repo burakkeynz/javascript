@@ -65,4 +65,89 @@ tabsContainer.addEventListener('click', function (e) {
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     .classList.add('operations__content--active');
 });
+//Menu fade animation
+const handleHover = function (e) {
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+
+    siblings.forEach(links => {
+      if (links !== link) {
+        links.style.opacity = this;
+      }
+    });
+    logo.style.opacity = this;
+  }
+};
+
+//Passing into handler
+nav.addEventListener('mouseover', handleHover.bind(0.5));
+nav.addEventListener('mouseout', handleHover.bind(1));
+
+stick navigation: The Intersection Observer API
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height; //to get rootMargin px dynamically
+const stickNav = function (entries) {
+  const [entry] = entries;
+  console.log(entry);
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else {
+    nav.classList.remove('sticky');
+  }
+};
+
+const headerObserver = new IntersectionObserver(stickNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+});
+headerObserver.observe(header);
+
+//Reveal sections as approached
+const allSections = document.querySelectorAll('.section');
+
+//When revealsection is called by observer, we loop entries and remove section--hidden if it is intersecting and letting observer unobserve after section--hidden removed
+const revealSection = function (entries, observer) {
+  entries.forEach(entry => {
+    //Guard clause
+    if (!entry.isIntersecting) return;
+
+    entry.target.classList.remove('section--hidden');
+    observer.unobserve(entry.target);
+  });
+};
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15,
+});
+
+allSections.forEach(function (section) {
+  sectionObserver.observe(section);
+});
+
+//Lazy Loading Images
+const allImages = document.querySelectorAll('img[data-src]');
+const revealImage = function (entries, observer) {
+  const [entry] = entries;
+  //Guard clause
+  if (!entry.isIntersecting) return;
+  //Replace src with data-stc
+  entry.target.src = entry.target.dataset.src;
+  //We want to remove blur when the loading event is triggered, which is loading is finished
+  entry.target.addEventListener('load', function () {
+    entry.target.classList.remove('lazy-img');
+  });
+  observer.unobserve(entry.target);
+};
+
+const imgObserver = new IntersectionObserver(revealImage, {
+  root: null,
+  threshold: 0,
+  rootMargin: '200px',
+});
+
+allImages.forEach(function (images) {
+  imgObserver.observe(images);
+});
 
