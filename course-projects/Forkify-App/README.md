@@ -58,7 +58,7 @@ Handles all UI rendering and DOM interactions.
 - **`paginationView.js`** → Manages pagination UI.
 - **`addRecipeView.js`** → Handles form submission for custom recipes.
 
-### 📌 **3. Controller (App Logic)**
+### **3. Controller (App Logic)**
 - **`controller.js`** → The brain of the application.
 - Bridges the **Model** and **View** by handling user interactions.
 
