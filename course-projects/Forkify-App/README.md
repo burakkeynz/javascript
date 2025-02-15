@@ -1,4 +1,4 @@
-# 🍽️ Forkify - Recipe Application
+# Forkify - Recipe Application
 
 ## Overview
 
