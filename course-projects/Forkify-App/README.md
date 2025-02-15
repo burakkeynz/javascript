@@ -1,15 +1,15 @@
 # 🍽️ Forkify - Recipe Application
 
-## 📌 Overview
+## Overview
 
 Forkify is a modern recipe application that allows users to search for recipes, add their own custom recipes, and save favorites using bookmarks. Built with **JavaScript (ES6+), Parcel Bundler, and SASS**, Forkify provides a seamless and dynamic experience for food enthusiasts.
 
 This project follows the **Model-View-Controller (MVC) architecture**, ensuring a modular and maintainable structure. It integrates **API fetching, state management, and UI rendering**, making it a great example of modern JavaScript development.
 
 
-## 🚀 Features
+## Features
 
-### 🔍 Recipe Search & API Integration
+### Recipe Search & API Integration
 - Fetches **over 1,000,000+ recipes** from the Forkify API.
 - Allows users to search for recipes by ingredients or dish names.
 
